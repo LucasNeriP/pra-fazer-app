@@ -1,16 +1,37 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {auth} from '../scripts/firebase-config';
+import {createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useRouter } from 'expo-router';
 
 
 export default function CreateUser() {
     const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
+    const [erro, setErro] = useState("");
     const [password, setPassword] = useState("")
+    const router = useRouter();
+
+    function userCreate(){
+        createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        router.push('/');
+        setErro("Usuário criado com sucesso!");
+        
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
+
+    }
+    
 
     return (
         <View style={styles.container}>
             <Text style={styles.titulo}>Cadastrar Usuário</Text>
-
+            <Text>Error</Text>
             <TextInput
                 style={styles.input}
                 value={nome}
@@ -35,6 +56,7 @@ export default function CreateUser() {
 
             <TouchableOpacity
                 style={styles.button}
+                onPress={userCreate}
             >
                 <Text style={styles.textButton}>Criar usuário</Text>
             </TouchableOpacity>
