@@ -24,6 +24,7 @@ export default function Index() {
         setErro(errorMessage)
     });
     }
+    // teste
     return (
         <View style={styles.container}>
             <Image style={styles.logo} source={require('../assets/images/logo_pra_fazer.png')} />
